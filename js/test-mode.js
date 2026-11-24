@@ -1,6 +1,17 @@
 /* Modo prueba de usabilidad: oculta herramientas de prototipo, reinicia el estado por participante y registra la sesión.
    ?p=ID participante · ?t=N tarea · ?fac=1 modo facilitadora (ve "Estados", no registra) · ?reset=1 reinicia estado */
 (() => {
+  if (new URLSearchParams(location.search).get('hm') === '1') {
+    /* ---------- Microsoft Clarity (opcional: M1_CLARITY en js/config.js) ---------- */
+  const cid = window.M1_CLARITY;
+  if (cid && !fac) {
+    (function (c, l, a, r, i, t, y) { c[a] = c[a] || function () { (c[a].q = c[a].q || []).push(arguments); }; t = l.createElement(r); t.async = 1; t.src = 'https://www.clarity.ms/tag/' + i; y = l.getElementsByTagName(r)[0]; y.parentNode.insertBefore(t, y); })(window, document, 'clarity', 'script', cid);
+    try { clarity('identify', pid(), sid); clarity('set', 'participante', pid()); if (task()) clarity('set', 'tarea', task()); } catch (e) { /* nada */ }
+  }
+
+  window.M1T = { fac: true, participant: false, log() {}, flush() {}, autoWelcome: () => false };
+    const h = document.createElement('style'); h.textContent = '.states{display:none!important}'; (document.head || document.documentElement).appendChild(h); return;
+  }
   const ss = { get: (k) => { try { return sessionStorage.getItem(k); } catch (e) { return null; } }, set: (k, v) => { try { sessionStorage.setItem(k, v); } catch (e) { /* nada */ } }, del: (k) => { try { sessionStorage.removeItem(k); } catch (e) { /* nada */ } } };
   const q = new URLSearchParams(location.search);
   if (q.get('fac') === '1') ss.set('m1_fac', '1');
@@ -40,7 +51,7 @@
     const ep = window.M1_ENDPOINT;
     if (ep) {
       sending = true;
-      try { await fetch(ep, { method: 'POST', mode: 'no-cors', keepalive: true, headers: { 'Content-Type': 'text/plain;charset=utf-8' }, body: JSON.stringify(Object.assign({}, doc, { events: events.slice(-400) })) }); dirty = false; } catch (e) { /* se reintenta */ }
+      try { await fetch(ep, { method: 'POST', mode: 'no-cors', keepalive: true, headers: { 'Content-Type': 'text/plain;charset=utf-8' }, body: JSON.stringify(Object.assign({}, doc, { events: events.slice(-1000) })) }); dirty = false; } catch (e) { /* se reintenta */ }
       sending = false; return;
     }
     const db = await getDb(); if (!db) return;
@@ -57,9 +68,10 @@
     return (el.tagName.toLowerCase() + ': ' + t).slice(0, 70);
   };
   document.addEventListener('click', (e) => {
+    const pos = { x: Math.round(e.clientX), y: Math.round(e.clientY), xr: +(e.clientX / innerWidth).toFixed(3), yr: +(e.clientY / innerHeight).toFixed(3) };
     const el = e.target.closest('a,button,[role=button],[data-act],[data-id],input,label,textarea,article.card,.pl-item');
-    if (!el) { log('miss', '', { x: Math.round(e.clientX), y: Math.round(e.clientY) }); return; }
-    log('tap', labelOf(el));
+    if (!el) { log('miss', '', pos); return; }
+    log('tap', labelOf(el), pos);
   }, true);
 
   /* ---------- Callejones sin salida ---------- */
@@ -134,7 +146,7 @@ body.m1t-has-bar{padding-top:48px}` + '.states{display:none!important}';
       });
     } else if (p === 'brief') {
       const ov = card('<p class="m1t-eye">Tarea ' + n + ' de ' + TASKS.length + '</p><h2>' + esc(T.t) + '</h2><p class="m1t-say">“' + esc(T.say) + '.”</p><p class="m1t-small">Cuando termines, toca el botón <b>Terminé</b> que aparece arriba.</p><button class="m1t-btn" type="button">Comenzar</button>');
-      ov.querySelector('button').addEventListener('click', () => { log('task_start', T.t); ss.set('m1_phase', 'doing'); render(); });
+      ov.querySelector('button').addEventListener('click', () => { log('task_start', T.t); try { if (window.clarity) clarity('set', 'tarea', String(n)); } catch (e) { /* nada */ } ss.set('m1_phase', 'doing'); render(); });
     } else if (p === 'doing') {
       const b = document.createElement('div'); b.className = 'm1t-bar';
       b.innerHTML = '<div class="m1t-lb"><small>Tarea ' + n + ' de ' + TASKS.length + '</small><b>' + esc(T.t) + '</b></div><button type="button">Terminé</button>';

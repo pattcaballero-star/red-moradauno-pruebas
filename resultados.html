@@ -19,6 +19,16 @@ h1{margin:0 0 4px;font-size:22px}.sub{margin:0 0 16px;color:var(--m)}
 .tl li{display:grid;grid-template-columns:62px 80px 1fr;gap:8px;padding:5px 0;border-top:1px solid #f0eef3;font-size:13px}
 .tl .ty{font-weight:600}.miss{color:#b3261e}.dead{color:#b3261e}.view{color:var(--p)}
 .msg{padding:14px;background:#fff;border:1px dashed #b8b4c0;border-radius:12px;color:var(--m)}
+
+.heat{margin-top:22px;padding:16px;background:#fff;border:1px solid var(--l);border-radius:14px}
+.heat h2{margin:0 0 4px;font-size:18px}.heat .sub{margin:0 0 12px}
+.hf{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:12px}
+.hf label{display:flex;flex-direction:column;gap:3px;font-size:12px;color:var(--m);font-weight:600}
+.hf select{height:38px;padding:0 8px;border:1px solid #8d8a92;border-radius:8px;font:inherit;font-size:14px;background:#fff;max-width:230px}
+.hw{position:relative;width:390px;height:844px;max-width:100%;margin:0 auto;border:8px solid #26262e;border-radius:28px;overflow:hidden;background:#fff}
+.hw iframe{position:absolute;left:0;top:0;width:390px;height:844px;border:0;transform-origin:0 0}
+.hw canvas{position:absolute;left:0;top:0;pointer-events:none}
+.hl{margin:10px 0 0;color:var(--m);font-size:13px;text-align:center}
 </style>
 </head>
 <body>
@@ -27,6 +37,19 @@ h1{margin:0 0 4px;font-size:22px}.sub{margin:0 0 16px;color:var(--m)}
   <p class="sub">Una fila por sesión. Toca una para ver la línea de tiempo de pantallas y toques. "Fallos" son toques fuera de un botón; "sin salida" son secciones que no existen en el prototipo.</p>
   <div class="bar"><button class="btn" id="reload" type="button">Actualizar</button><button class="btn" id="copy" type="button">Copiar datos (JSON)</button><a class="btn" href="guion.html">Guion y enlaces</a></div>
   <div id="out" class="msg">Cargando…</div>
+  <section class="heat" id="heat" hidden>
+    <h2>Mapa de calor</h2>
+    <p class="sub">Cada punto es un toque. Rojo: toques en botones o enlaces. Azul: fallos (toques fuera de cualquier botón). Se muestra en el tamaño del teléfono; si la pantalla tenía scroll, las posiciones son aproximadas.</p>
+    <div class="hf">
+      <label>Pantalla<select id="h-page"></select></label>
+      <label>Tarea<select id="h-task"></select></label>
+      <label>Participante<select id="h-pid"></select></label>
+      <label>Mostrar<select id="h-mode"><option value="all">Toques y fallos</option><option value="tap">Solo toques</option><option value="miss">Solo fallos</option></select></label>
+    </div>
+    <div class="hw" id="hw"><iframe id="h-frame" title="Pantalla" scrolling="no"></iframe><canvas id="h-cv" width="374" height="828"></canvas></div>
+    <p class="hl" id="h-info"></p>
+  </section>
+
 </div>
 <script src="js/config.js?v=1"></script>
 <script>
@@ -34,7 +57,7 @@ h1{margin:0 0 4px;font-size:22px}.sub{margin:0 0 16px;color:var(--m)}
   const out = document.getElementById('out'); let rows = [];
   const esc = (s) => String(s == null ? '' : s).replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
   const mmss = (ms) => { const s = Math.round(ms / 1000); return Math.floor(s / 60) + ':' + String(s % 60).padStart(2, '0'); };
-  const render = () => {
+  const render = () => { setTimeout(heatInit, 0);
     if (!rows.length) { out.className = 'msg'; out.textContent = 'Todavía no hay sesiones registradas. Abre un enlace de participante en otro navegador y vuelve a actualizar.'; return; }
     out.className = ''; rows.sort((a, b) => b.start - a.start);
     out.innerHTML = rows.map((r) => {
@@ -44,6 +67,48 @@ h1{margin:0 0 4px;font-size:22px}.sub{margin:0 0 16px;color:var(--m)}
       <ul class="tl">${ev.map((e) => `<li><span>${mmss(e.t)}</span><span class="ty ${e.type === 'miss' ? 'miss' : e.type === 'dead_end' ? 'dead' : e.type === 'view' || e.type === 'task_start' || e.type === 'task_done' ? 'view' : ''}">${e.type === 'tap' ? 'Toque' : e.type === 'task_start' ? 'Inicia tarea' : e.type === 'task_done' ? 'Terminó tarea' : e.type === 'session_start' ? 'Inicio' : e.type === 'miss' ? 'Fallo' : e.type === 'dead_end' ? 'Sin salida' : 'Pantalla'}</span><span>${esc(e.page)}${e.label ? ' · ' + esc(e.label) : ''}${e.task ? ' · tarea ' + esc(e.task) : ''}</span></li>`).join('')}</ul></details>`;
     }).join('');
   };
+
+  /* ---------- Mapa de calor ---------- */
+  const H = (id) => document.getElementById(id);
+  let heatBuilt = '';
+  const heatPts = () => {
+    const pg = H('h-page').value, tk = H('h-task').value, pd = H('h-pid').value, md = H('h-mode').value, pts = [];
+    rows.forEach((r) => { if (pd && r.pid !== pd) return; (r.events || []).forEach((e) => { if (e.xr == null || (e.type !== 'tap' && e.type !== 'miss') || e.page !== pg) return; if (tk && String(e.task) !== tk) return; if (md !== 'all' && e.type !== md) return; pts.push(e); }); });
+    return pts;
+  };
+  const heatDraw = () => {
+    const cv = H('h-cv'), c = cv.getContext('2d'), pts = heatPts();
+    c.clearRect(0, 0, cv.width, cv.height);
+    pts.forEach((e) => {
+      const x = e.xr * cv.width, y = e.yr * cv.height, g = c.createRadialGradient(x, y, 0, x, y, 30), m = e.type === 'miss';
+      g.addColorStop(0, m ? 'rgba(30,90,255,.55)' : 'rgba(255,40,20,.45)'); g.addColorStop(1, m ? 'rgba(30,90,255,0)' : 'rgba(255,40,20,0)');
+      c.fillStyle = g; c.beginPath(); c.arc(x, y, 30, 0, 7); c.fill();
+    });
+    const miss = pts.filter((e) => e.type === 'miss').length;
+    H('h-info').textContent = pts.length + ' toques en esta vista (' + miss + ' fallos)';
+  };
+  const heatPage = () => {
+    const key = H('h-page').value; if (!key) return;
+    const parts = key.split('#'), src = parts[0] + '?hm=1' + (parts[1] ? '#' + parts[1] : '');
+    const f = H('h-frame'); f.onload = heatDraw; f.src = src;
+    const w = H('hw').clientWidth - 16; f.style.transform = 'scale(' + (w / 390) + ')'; H('h-cv').style.transform = 'scale(' + (w / 374) + ')'; H('h-cv').style.transformOrigin = '0 0';
+    heatDraw();
+  };
+  const heatInit = () => {
+    const evs = []; rows.forEach((r) => (r.events || []).forEach((e) => { if (e.xr != null && (e.type === 'tap' || e.type === 'miss')) evs.push([r, e]); }));
+    if (!evs.length) { H('heat').hidden = true; return; }
+    const sig = evs.length + ':' + rows.length; if (sig === heatBuilt) return; heatBuilt = sig;
+    H('heat').hidden = false;
+    const count = {}; evs.forEach(([, e]) => { count[e.page] = (count[e.page] || 0) + 1; });
+    const keep = H('h-page').value;
+    H('h-page').innerHTML = Object.keys(count).sort((a, b) => count[b] - count[a]).map((k) => '<option value="' + esc(k) + '">' + esc(k) + ' (' + count[k] + ')</option>').join('');
+    if (keep && count[keep]) H('h-page').value = keep;
+    H('h-task').innerHTML = '<option value="">Todas</option>' + [1, 2, 3, 4, 5, 6].map((n) => '<option value="' + n + '">Tarea ' + n + '</option>').join('');
+    const pids = [...new Set(rows.map((r) => r.pid))]; H('h-pid').innerHTML = '<option value="">Todas</option>' + pids.map((p) => '<option value="' + esc(p) + '">' + esc(p) + '</option>').join('');
+    heatPage();
+  };
+  ['h-task', 'h-pid', 'h-mode'].forEach((i) => H(i).addEventListener('change', heatDraw));
+  H('h-page').addEventListener('change', heatPage);
   const load = async () => {
     out.className = 'msg'; out.textContent = 'Cargando…';
     if (window.M1_ENDPOINT) {
