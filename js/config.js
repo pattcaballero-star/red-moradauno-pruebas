@@ -1,4 +1,4 @@
-window.M1_ENDPOINT = 'https://script.google.com/macros/s/AKfycbxfCbZWpPpKkqEbwC2cF06BllhbWv3JgZAHH-nd3uFL3n6Y-rG5vtEl5_GukxcZBt0c8g/exec;
+window.M1_ENDPOINT = 'https://script.google.com/macros/s/AKfycbxfCbZWpPpKkqEbwC2cF06BllhbWv3JgZAHH-nd3uFL3n6Y-rG5vtEl5_GukxcZBt0c8g/exec';
 
 // Microsoft Clarity (no se carga en modo facilitadora ni en el mapa de calor)
 if (!/[?&](fac|hm)=1/.test(location.search) && sessionStorage.getItem('m1_fac') !== '1') {
