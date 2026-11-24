@@ -1,0 +1,172 @@
+<!doctype html>
+<html lang="es-MX">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Red MoradaUno · Onboarding</title>
+<link rel="stylesheet" href="css/ob-base.css?v=1">
+<link rel="stylesheet" href="css/tabbar.css?v=6">
+<link rel="stylesheet" href="css/onboarding.css?v=7">
+<script src="js/config.js?v=1"></script>
+<script src="js/test-mode.js?v=5"></script>
+</head>
+<body class="ob-body" data-tab="red">
+
+<div class="ob" id="ob">
+
+  <!-- 2 · Confirma los datos de tu inmobiliaria -->
+  <section class="ob-screen" data-screen="revisa" aria-label="Confirma los datos de tu inmobiliaria">
+    <nav class="ob-nav"><button class="icon-btn" type="button" data-act="cancel" aria-label="Regresar"><img src="assets/ob/arrow-narrow-left.svg" width="24" height="24" alt=""></button><h1>Red MoradaUno</h1></nav>
+    <div class="ri-main">
+      <div class="ri-scroll">
+        <h2 id="ri-title">Confirma los datos de tu inmobiliaria</h2>
+        <p class="ri-lead">Corrobora que el nombre de tu inmobiliaria, aparezca tal cual está en los portales</p>
+        <div class="ri-card">
+          <h3>Información de tu inmobiliaria</h3>
+          <div class="ri-row"><span class="ri-ico"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 21V6l8-3v18M12 9h8v12M3 21h18M7 9h2M7 13h2M7 17h2M15 13h2M15 17h2"/></svg></span><div><small>Inmobiliaria</small><b>RE/MAX Benito Juarez</b></div></div>
+          <button class="ri-link" type="button" data-act="wrong"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 20l1-4L16.5 4.5a2 2 0 0 1 3 3L8 19z"/></svg>Editar nombre de inmobiliaria</button>
+          <hr>
+          <div class="ri-row"><span class="ri-ico"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A15 15 0 0 1 3 6a2 2 0 0 1 2-2z"/></svg></span><div><small>Teléfono</small><b>** **** 8924</b></div></div>
+          <button class="ri-link" type="button" data-act="add-phone"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg>Agregar otro teléfono</button>
+        </div>
+        <label class="ri-consent"><input type="checkbox" id="ri-consent"><span>Autorizo la búsqueda de propiedades públicas asociadas a mi inmobiliaria</span></label>
+      </div>
+      <div class="ri-actions">
+        <button class="btn btn--primary" id="ri-connect" type="button" data-act="next" disabled>Buscar propiedades</button>
+        <button class="btn btn--secondary" type="button" data-act="cancel">Cancelar</button>
+      </div>
+    </div>
+
+    <!-- Hojas inferiores -->
+    <div class="overlay" id="ov-wrong" hidden></div>
+    <div class="ob-sheet" id="sh-wrong" role="dialog" aria-modal="true" aria-labelledby="wrong-title" hidden>
+      <button class="btn-close ob-x" type="button" data-act="close-wrong" aria-label="Cerrar"><img src="assets/ob/x-close.svg" alt="" width="20" height="20"></button>
+      <h2 id="wrong-title">Actualiza tu inmobiliaria</h2>
+      <p class="ob-sub">Escribe el nombre de tu inmobiliaria tal como aparece en los portales</p>
+      <form class="wr-form" id="wr-form" onsubmit="return false">
+        <label class="wr-field"><span>Nombre de la inmobiliaria</span><span class="wr-in"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 21V6l8-3v18M12 9h8v12M3 21h18M7 9h2M7 13h2M7 17h2M15 13h2M15 17h2"/></svg><input type="text" id="wr-agency" placeholder="RE/MAX" autocomplete="off"></span></label>
+        <label class="wr-check"><input type="checkbox" id="wr-none"><i aria-hidden="true"></i><span>Ya no pertenezco a ninguna inmobiliaria</span></label>
+        <hr>
+        <button class="btn btn--primary" id="wr-send" type="button" data-act="send-wrong" disabled>Actualizar inmobiliaria</button>
+      </form>
+    </div>
+    <div class="ob-sheet" id="sh-phone" role="dialog" aria-modal="true" aria-labelledby="phone-title" hidden>
+      <button class="btn-close ob-x" type="button" data-act="close-wrong" aria-label="Cerrar"><img src="assets/ob/x-close.svg" alt="" width="20" height="20"></button>
+      <h2 id="phone-title">Agrega un número adicional</h2>
+      <p class="ob-sub">Agrega un número adicional con el que tu inmobiliaria publica inmuebles</p>
+      <form class="wr-form" onsubmit="return false">
+        <label class="wr-field"><span>Número de teléfono</span><span class="wr-in"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A15 15 0 0 1 3 6a2 2 0 0 1 2-2z"/></svg><input type="tel" id="ph-num" inputmode="tel" placeholder="56 7890 3847" autocomplete="off"></span></label>
+        <hr>
+        <button class="btn btn--primary" id="ph-send" type="button" data-act="send-phone" disabled>Agregar número</button>
+      </form>
+    </div>
+    <div class="ob-sheet" id="sh-ok" role="dialog" aria-modal="true" aria-labelledby="ok-title" hidden>
+      <button class="btn-close ob-x" type="button" data-act="close-ok" aria-label="Cerrar"><img src="assets/ob/x-close.svg" alt="" width="20" height="20"></button>
+      <span class="ok-ico" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M8.5 12.5l2.5 2.5 4.5-5"/></svg></span>
+      <h2 id="ok-title">Recibimos tu actualización</h2>
+      <p class="ob-sub">Estamos actualizando tu inmobiliaria. Te avisaremos cuando esté lista</p>
+      <button class="btn btn--primary" type="button" data-act="explore">Explorar RedMoradaUno</button>
+    </div>
+  </section>
+
+  <!-- 3 · Buscando propiedades -->
+  <section class="ob-screen" data-screen="buscando" aria-label="Buscando propiedades en Red MoradaUno" aria-busy="true">
+    <nav class="ob-nav"><button class="icon-btn" type="button" data-act="back" aria-label="Regresar"><img src="assets/ob/arrow-narrow-left.svg" width="24" height="24" alt=""></button><h1>Red MoradaUno</h1></nav>
+    <div class="stack" data-act="next" role="button" tabindex="0" aria-label="4 propiedades encontradas. Continuar">
+      <div class="cs" role="img" aria-label="4 propiedades"><i class="cs-c cs-c1"></i><i class="cs-c cs-c2"></i><i class="cs-c cs-c3"></i><div class="cs-front"><img src="assets/img/property-del-valle.jpg" alt=""><div class="cs-num"><b>4</b><span>propiedades</span></div></div></div>
+    </div>
+    <p class="sr" role="status">Buscando propiedades vinculadas a tu nombre…</p>
+  </section>
+
+  <!-- 4 · Propiedades vinculadas -->
+  <section class="ob-screen" data-screen="vinculadas" aria-label="Encontramos propiedades vinculadas a tu nombre">
+    <nav class="ob-nav"><button class="icon-btn" type="button" data-act="back" aria-label="Regresar"><img src="assets/ob/arrow-narrow-left.svg" width="24" height="24" alt=""></button><h1>Red MoradaUno</h1></nav>
+    <div class="vin">
+      <div class="vin-top">
+        <div class="cs vin-stack" role="img" aria-label="4 propiedades"><i class="cs-c cs-c1"></i><i class="cs-c cs-c2"></i><i class="cs-c cs-c3"></i><div class="cs-front"><img src="assets/img/property-del-valle.jpg" alt=""><div class="cs-num"><b>4</b><span>propiedades</span></div></div></div>
+        <h2>Encontramos propiedades vinculadas a tu nombre</h2>
+        <label class="vin-card">
+          <span id="vin-label">Autorizo que se publiquen los inmuebles identificados bajo mi nombre en la Red MoradaUno</span>
+          <input class="sw-input" type="checkbox" role="switch" aria-labelledby="vin-label">
+          <span class="sw" aria-hidden="true"><i></i></span>
+        </label>
+      </div>
+      <button class="btn btn--primary vin-cta" type="button" data-act="next"><span>Ver mis propiedades</span><img src="assets/ob/arrow-narrow-right.svg" width="20" height="20" alt=""></button>
+    </div>
+  </section>
+
+  <!-- 5 · Tus inmuebles (+ Antes de empezar, Publicar todo, Continúas donde lo dejaste) -->
+  <section class="ob-screen" data-screen="tus" aria-label="Tus inmuebles: decide cuáles publicar en Red MoradaUno">
+    <div class="tus" id="tus-page">
+      <div class="tus-head">
+        <div><h1>Tus inmuebles</h1><p class="tus-count" aria-live="polite"><span id="tus-n">1</span> de <span id="tus-total">4</span></p></div>
+        <button class="tus-all" type="button" data-act="publish-all"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><rect x="8" y="8" width="12" height="12" rx="2"/><path d="M16 8V6a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h2"/></svg><span>Publicar todo</span></button>
+      </div>
+      <div class="deck" id="deck" role="group" aria-roledescription="mazo de inmuebles" aria-label="Desliza a la derecha para solo publicar, a la izquierda para no publicar, hacia arriba para publicar y compartir"></div>
+      <div class="acts">
+        <button class="act act--skip" type="button" data-decision="skip"><span class="act-c"><img src="assets/ob/s07-circle-skip.svg" width="59" height="59" alt=""><img src="assets/ob/x-close-32.svg" width="32" height="32" alt=""></span><span>No publicar</span></button>
+        <button class="act act--share" type="button" data-decision="share"><span class="act-c"><img src="assets/ob/s07-circle-share.svg" width="68" height="68" alt=""><img src="assets/ob/users-01.svg" width="32" height="32" alt=""></span><span>Publicar y compartir</span></button>
+        <button class="act act--publish" type="button" data-decision="publish"><span class="act-c"><img src="assets/ob/s07-circle-publish.svg" width="59" height="59" alt=""><img src="assets/ob/check.svg" width="24" height="24" alt=""></span><span>Solo publicar</span></button>
+      </div>
+
+      <!-- Continúas donde lo dejaste -->
+      <div class="resume" id="resume" role="dialog" aria-labelledby="resume-title" hidden>
+        <b id="resume-title">Continúas donde lo dejaste</b>
+        <p>Esta es la última propiedad que revisaste</p>
+        <button class="btn btn--primary" type="button" data-act="resume-ok">Entendido</button>
+      </div>
+    </div>
+
+    <!-- Antes de empezar -->
+    <div class="overlay" id="ov-intro" hidden></div>
+    <div class="ob-sheet" id="m-intro" role="dialog" aria-modal="true" aria-labelledby="intro-title" hidden>
+      <button class="btn-close ob-x" type="button" data-act="close-intro" aria-label="Cerrar"><img src="assets/ob/x-close.svg" alt="" width="20" height="20"></button>
+      <h2 id="intro-title">Antes de empezar</h2>
+      <p class="ob-sub">Elige y confirma qué propiedades quieres publicar en la Red MoradaUno para juntos mantener el inventario confiable</p>
+      <ul class="opts" aria-label="Opciones de publicación">
+        <li><span class="opt-i"><img src="assets/ob/option-circle-share.svg" width="40" height="40" alt=""><img src="assets/ob/users-01-white.svg" width="24" height="24" alt=""></span><div><b>Publicar y compartir comisión</b><span>Comparte comisión con otros asesores</span></div></li>
+        <li><span class="opt-i"><img src="assets/ob/option-circle-publish.svg" width="40" height="40" alt=""><img src="assets/ob/check-brand.svg" width="24" height="24" alt=""></span><div><b>Publicar</b><span>No compartes comisión</span></div></li>
+        <li><span class="opt-i"><img src="assets/ob/option-circle-no.svg" width="40" height="40" alt=""><img src="assets/ob/x-close-dark.svg" width="24" height="24" alt=""></span><div><b>No publicar</b><span>No deseas publicar el inmueble por ahora</span></div></li>
+      </ul>
+      <button class="btn btn--primary" type="button" data-act="start">Empezar</button>
+    </div>
+
+    <!-- Publicar todas las pendientes -->
+    <div class="overlay" id="ov-all" hidden></div>
+    <div class="ob-sheet" id="m-all" role="dialog" aria-modal="true" aria-labelledby="all-title" hidden>
+      <button class="btn-close ob-x" type="button" data-act="close-all" aria-label="Cerrar"><img src="assets/ob/x-close.svg" alt="" width="20" height="20"></button>
+      <h2 id="all-title">Publicar las <span id="all-n">3</span> propiedades pendientes</h2>
+      <p class="ob-sub">¿Qué regla de comisión aplicamos a todas?</p>
+      <div class="rules" role="radiogroup" aria-label="Regla de comisión">
+        <label class="rule"><input type="radio" name="rule" value="share"><i aria-hidden="true"></i><span><b>Publicar y compartir</b><span>Otros asesores podrán colaborar contigo</span></span></label>
+        <label class="rule"><input type="radio" name="rule" value="publish"><i aria-hidden="true"></i><span><b>Publicar sin compartir</b><span>Ningún asesor podrá colaborar en estas propiedades</span></span></label>
+      </div>
+      <p class="rules-note">Podrás cambiar esta configuración en cualquier momento desde <strong>Mi inventario</strong></p>
+      <button class="btn btn--primary" id="all-go" type="button" data-act="apply-all" disabled>Publicar</button>
+    </div>
+  </section>
+
+  <!-- 6 · ¡Listo! -->
+  <section class="ob-screen" data-screen="listo" aria-label="Listo: tus propiedades están publicadas">
+    <div class="listo">
+      <div class="listo-card">
+        <span class="confetti" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></span>
+        <h1>¡Listo!</h1>
+        <p>Revisaste todas tus propiedades y ya están publicadas en la Red M1</p>
+        <div class="chips" id="listo-chips"></div>
+      </div>
+      <button class="btn btn--primary" type="button" data-act="finish">Continuar</button>
+    </div>
+  </section>
+</div>
+
+<div class="states" id="states">
+  <button class="states-btn" id="states-btn" type="button" aria-haspopup="true" aria-expanded="false">Estados <svg class="icon" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg></button>
+  <ul class="states-menu" id="states-menu" hidden></ul>
+</div>
+<div class="toast" id="toast" role="status" hidden></div>
+
+<script src="js/tabbar.js?v=3"></script>
+<script src="js/onboarding.js?v=7"></script>
+</body>
+</html>

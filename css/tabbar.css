@@ -1,0 +1,18 @@
+:root{--tab-h:calc(80px + env(safe-area-inset-bottom))}
+.tabbar{position:fixed;left:8px;right:8px;bottom:0;z-index:15;display:flex;align-items:stretch;height:var(--tab-h);padding:0 4px env(safe-area-inset-bottom);background:#fff;border-radius:32px 32px 0 0;box-shadow:0 -8px 28px rgba(51,2,72,.10);font-family:"Figtree",system-ui,-apple-system,"Segoe UI",sans-serif}
+.tb-item{position:relative;flex:1;min-width:0;display:flex;flex-direction:column;align-items:center;justify-content:flex-start;gap:6px;padding:18px 0 0;color:#4a4a5e;font-size:12px;font-weight:500;line-height:1.2;text-align:center;text-decoration:none;-webkit-tap-highlight-color:transparent}
+.tb-icowrap{display:flex;align-items:center;justify-content:center;width:44px;height:28px}
+.tb-ico{width:26px;height:26px;fill:none;stroke:currentColor;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round}
+.tb-dots{fill:currentColor;stroke:none}
+.tb-item.is-active{color:#772583;font-weight:700}
+.tb-item:focus-visible{outline:2px solid #772583;outline-offset:-3px;border-radius:14px}
+/* Botón central elevado: Protección (+) */
+.tb-center{flex:1.15}
+.tb-fab{position:absolute;left:50%;top:-34px;display:flex;align-items:center;justify-content:center;width:70px;height:70px;margin-left:-35px;border-radius:50%;background:rgba(119,37,131,.10);box-shadow:0 8px 22px rgba(51,2,72,.16)}
+.tb-fab::before{content:"";width:56px;height:56px;border-radius:50%;background:#772583}
+.tb-fab .tb-ico{position:absolute;width:30px;height:30px;color:#fff;stroke-width:2.4}
+/* Solo mobile: en desktop la navegación es el menú superior */
+@media (min-width:900px){
+  :root{--tab-h:0px}
+  .tabbar{display:none}
+}

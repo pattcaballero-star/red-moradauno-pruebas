@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="es-MX">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Red MoradaUno · Mi inventario</title>
+<link rel="stylesheet" href="css/styles.css?v=11">
+<link rel="stylesheet" href="css/tabbar.css?v=6">
+<link rel="stylesheet" href="css/inventario.css?v=34">
+<script src="js/config.js?v=1"></script>
+<script src="js/test-mode.js?v=5"></script>
+</head>
+<body data-tab="red">
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <symbol id="i-bag" viewBox="0 0 24 24"><path d="M5 8h14l-1 12H6z"/><path d="M9 8V6.5a3 3 0 0 1 6 0V8"/><path d="M9.5 12.5c.7.9 1.5 1.3 2.5 1.3s1.8-.4 2.5-1.3"/></symbol>
+    <symbol id="i-shield-check" viewBox="0 0 24 24"><path d="M12 3l7 2.5V11c0 4.5-3 8-7 10-4-2-7-5.5-7-10V5.5z"/><path d="M9 12l2 2 4-4"/></symbol>
+    <symbol id="i-folder" viewBox="0 0 24 24"><path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></symbol>
+    <symbol id="i-user" viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></symbol>
+  </defs>
+</svg>
+
+<div class="page inv-page">
+  <!-- Encabezado (solo desktop) -->
+  <header class="header inv-header">
+    <a class="logo" href="red.html" aria-label="MoradaUno">
+      <svg width="28" height="28" viewBox="0 0 28 28" role="img" aria-hidden="true">
+        <path d="M0 3 L0 28 L14 28 Z" fill="#4a0f5e"/><path d="M0 3 L14 28 L14 14 Z" fill="#671e75"/>
+        <path d="M28 3 L28 28 L14 28 Z" fill="#8e2d99"/><path d="M28 3 L14 28 L14 14 Z" fill="#b14eb5"/>
+      </svg>
+    </a>
+    <nav class="topnav" aria-label="Principal">
+      <a class="nav-item" href="index.html"><svg class="icon nav-logo" viewBox="0 0 28 28" aria-hidden="true"><path d="M0 3 L0 28 L14 28 Z" fill="#4a0f5e"/><path d="M0 3 L14 28 L14 14 Z" fill="#671e75"/><path d="M28 3 L28 28 L14 28 Z" fill="#8e2d99"/><path d="M28 3 L14 28 L14 14 Z" fill="#b14eb5"/></svg><span>Inicio</span></a>
+      <a class="nav-item is-active" href="red.html" aria-current="page"><svg class="icon"><use href="#i-bag"/></svg><span>Red M1</span></a>
+      <a class="nav-item" href="#"><svg class="icon"><use href="#i-shield-check"/></svg><span>Nueva protección</span></a>
+      <a class="nav-item" href="#"><svg class="icon"><use href="#i-folder"/></svg><span>Operaciones</span></a>
+      <a class="nav-item" href="#"><svg class="icon"><use href="#i-user"/></svg><span>Perfil</span></a>
+    </nav>
+    <button class="avatar" type="button" aria-label="Perfil">BS</button>
+  </header>
+
+  <main class="inv">
+    <section class="inv-head">
+      <a class="inv-back" href="red.html"><svg class="icon" viewBox="0 0 24 24"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>Red</a>
+      <h1>Mi inventario</h1>
+      <p class="inv-sub">Tus inmuebles y su estado en la Red MoradaUno</p>
+      <div class="inv-bar">
+        <div class="inv-stats" role="tablist" aria-label="Estado del inventario" id="inv-stats"></div>
+        <div class="inv-filters">
+          <label class="inv-search"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg><input id="inv-q" type="search" placeholder="Buscar por título o colonia" autocomplete="off" aria-label="Buscar por título o colonia"></label>
+          <span class="inv-select"><select id="inv-zona" aria-label="Colonia"><option value="">Colonia</option></select><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></span>
+        </div>
+      </div>
+    </section>
+    <p class="inv-note"><svg class="inv-ico" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg><span>Tu inventario se actualiza solo, 3 veces al día. Los cambios en tus portales pueden tardar en verse aquí.</span></p>
+    <section class="inv-list" id="inv-list" aria-live="polite"></section>
+  </main>
+</div>
+
+<!-- Modal · ¿Por qué sale de la Bolsa? -->
+<div class="reason-overlay" id="reason-overlay" hidden></div>
+<section class="reason-sheet" id="reason-sheet" role="dialog" aria-modal="true" aria-labelledby="reason-title" hidden></section>
+
+<div class="states" id="states">
+  <button class="states-btn" id="states-btn" type="button" aria-haspopup="true" aria-expanded="false">Estados <svg class="icon" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg></button>
+  <ul class="states-menu" id="states-menu" hidden></ul>
+</div>
+
+<div class="inv-toast" id="inv-toast" role="status" hidden></div>
+
+<script src="js/tabbar.js?v=3"></script>
+<script src="js/inventario.js?v=10"></script>
+</body>
+</html>

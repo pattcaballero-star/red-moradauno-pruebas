@@ -1,0 +1,190 @@
+<!doctype html>
+<html lang="es-MX">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Red MoradaUno · Home</title>
+<link rel="preload" href="assets/fonts/figtree-latin-600-normal.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="css/styles.css?v=11">
+<link rel="stylesheet" href="css/drawer.css?v=10">
+<link rel="stylesheet" href="css/tabbar.css?v=6">
+<script src="js/config.js?v=1"></script>
+<script src="js/test-mode.js?v=5"></script>
+</head>
+<body data-tab="red">
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <symbol id="i-sparkle" viewBox="0 0 24 24"><path d="M10 4l1.6 4.4L16 10l-4.4 1.6L10 16l-1.6-4.4L4 10l4.4-1.6z"/><path d="M18 14l.8 2.2L21 17l-2.2.8L18 20l-.8-2.2L15 17l2.2-.8z"/></symbol>
+    <symbol id="i-map" viewBox="0 0 24 24"><path d="M3 6l6-3 6 3 6-3v15l-6 3-6-3-6 3z"/><path d="M9 3v15"/><path d="M15 6v15"/></symbol>
+    <symbol id="i-filters" viewBox="0 0 24 24"><path d="M4 7h16"/><path d="M7 12h10"/><path d="M10 17h4"/></symbol>
+    <symbol id="i-mic" viewBox="0 0 24 24"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5 11a7 7 0 0 0 14 0"/><path d="M12 18v3"/></symbol>
+    <symbol id="i-home" viewBox="0 0 24 24"><rect x="4" y="5" width="16" height="14" rx="1"/><path d="M4 5l8 7 8-7"/><path d="M4 19l8-7 8 7"/></symbol>
+    <symbol id="i-folder" viewBox="0 0 24 24"><path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></symbol>
+    <symbol id="i-refer" viewBox="0 0 24 24"><circle cx="9" cy="14" r="6"/><circle cx="15" cy="9" r="6"/><path d="M8 12.5l1-.8V16"/></symbol>
+    <symbol id="i-bag" viewBox="0 0 24 24"><path d="M5 8h14l-1 12H6z"/><path d="M9 8V6.5a3 3 0 0 1 6 0V8"/><path d="M9.5 12.5c.7.9 1.5 1.3 2.5 1.3s1.8-.4 2.5-1.3"/></symbol>
+    <symbol id="i-chevron" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></symbol>
+    <symbol id="i-shield-check" viewBox="0 0 24 24"><path d="M12 3l7 2.5V11c0 4.5-3 8-7 10-4-2-7-5.5-7-10V5.5z"/><path d="M9 12l2 2 4-4"/></symbol>
+    <symbol id="i-user" viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></symbol>
+    <symbol id="i-close" viewBox="0 0 24 24"><path d="M18 6L6 18M6 6l12 12"/></symbol>
+    <symbol id="i-building" viewBox="0 0 24 24"><path d="M3 21h18"/><path d="M5 21V9l6-4v16"/><path d="M11 21V3h8v18"/><path d="M14.5 7h1M14.5 11h1M14.5 15h1M7.5 12h.01M7.5 16h.01"/></symbol>
+    <symbol id="i-house" viewBox="0 0 24 24"><path d="M3 10.5L12 3l9 7.5V19a2 2 0 0 1-2 2h-3.5v-6h-7v6H5a2 2 0 0 1-2-2z"/></symbol>
+    <symbol id="i-plus" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></symbol>
+    <symbol id="i-minus" viewBox="0 0 24 24"><path d="M5 12h14"/></symbol>
+    <symbol id="i-paw" viewBox="0 0 24 24"><circle cx="6.5" cy="10" r="1.7"/><circle cx="10" cy="6" r="1.7"/><circle cx="14" cy="6" r="1.7"/><circle cx="17.5" cy="10" r="1.7"/><path d="M12 11c-2.5 0-5 3-5 5.2 0 1.6 1.3 2.3 2.6 2.3 1 0 1.6-.4 2.4-.4s1.4.4 2.4.4c1.3 0 2.6-.7 2.6-2.3C17 14 14.5 11 12 11z"/></symbol>
+    <symbol id="i-elevator" viewBox="0 0 24 24"><rect x="4" y="3" width="16" height="18" rx="2"/><path d="M9 10l3-3 3 3M9 14l3 3 3-3"/></symbol>
+    <symbol id="i-balcony" viewBox="0 0 24 24"><path d="M4 20V10a8 8 0 0 1 16 0v10"/><path d="M4 14h16M8 14v6M12 14v6M16 14v6M3 20h18"/></symbol>
+    <symbol id="i-gym" viewBox="0 0 24 24"><path d="M6.5 6.5v11M17.5 6.5v11M3.5 9v6M20.5 9v6M6.5 12h11"/></symbol>
+    <symbol id="i-sofa" viewBox="0 0 24 24"><path d="M5 11V8a3 3 0 0 1 3-3h8a3 3 0 0 1 3 3v3"/><path d="M3 13a2 2 0 0 1 4 0v2h10v-2a2 2 0 0 1 4 0v5H3z"/><path d="M6 18v2M18 18v2"/></symbol>
+    <symbol id="i-car" viewBox="0 0 24 24"><path d="M4 12l1.8-5a2 2 0 0 1 1.9-1.3h8.6a2 2 0 0 1 1.9 1.3L20 12v6a1 1 0 0 1-1 1h-1a1 1 0 0 1-1-1v-1.5H7V18a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1z"/><path d="M4 12h16M7.5 14.2h.01M16.5 14.2h.01"/></symbol>
+    <symbol id="i-shield" viewBox="0 0 24 24"><path d="M12 3l7 2.5V11c0 4.5-3 8-7 10-4-2-7-5.5-7-10V5.5z"/><path d="M9 12l2 2 4-4"/></symbol>
+    <symbol id="i-access" viewBox="0 0 24 24"><circle cx="12" cy="4.5" r="1.6"/><path d="M6 8.5h12M12 8.5V14M12 14l-3 6M12 14l3 6"/></symbol>
+  </defs>
+</svg>
+
+<div class="page">
+
+  <!-- Header (mobile: logo + avatar · desktop: + navegación superior) -->
+  <header class="header">
+    <a class="logo" href="#" aria-label="MoradaUno">
+      <svg width="28" height="28" viewBox="0 0 28 28" role="img" aria-hidden="true">
+        <path d="M0 3 L0 28 L14 28 Z" fill="#4a0f5e"/>
+        <path d="M0 3 L14 28 L14 14 Z" fill="#671e75"/>
+        <path d="M28 3 L28 28 L14 28 Z" fill="#8e2d99"/>
+        <path d="M28 3 L14 28 L14 14 Z" fill="#b14eb5"/>
+      </svg>
+    </a>
+
+    <nav class="topnav" aria-label="Principal">
+      <a class="nav-item" href="index.html"><svg class="icon nav-logo" viewBox="0 0 28 28" aria-hidden="true"><path d="M0 3 L0 28 L14 28 Z" fill="#4a0f5e"/><path d="M0 3 L14 28 L14 14 Z" fill="#671e75"/><path d="M28 3 L28 28 L14 28 Z" fill="#8e2d99"/><path d="M28 3 L14 28 L14 14 Z" fill="#b14eb5"/></svg><span>Inicio</span></a>
+      <a class="nav-item is-active" href="red.html" aria-current="page"><svg class="icon"><use href="#i-bag"/></svg><span>Red M1</span></a>
+      <a class="nav-item" href="#"><svg class="icon"><use href="#i-shield-check"/></svg><span>Nueva protección</span></a>
+      <a class="nav-item" href="#"><svg class="icon"><use href="#i-folder"/></svg><span>Operaciones</span></a>
+      <a class="nav-item" href="#"><svg class="icon"><use href="#i-user"/></svg><span>Perfil</span></a>
+    </nav>
+
+    <button class="avatar" type="button" aria-label="Perfil">BS</button>
+  </header>
+
+  <main>
+    <!-- Banda de búsqueda -->
+    <section class="search-band" aria-labelledby="titulo">
+      <h1 id="titulo">Ines, ¿qué busca tu inquilino?</h1>
+
+      <div class="tabs" role="tablist" aria-label="Modo de búsqueda">
+        <button class="tab is-active" role="tab" aria-selected="true" type="button"><svg class="icon"><use href="#i-sparkle"/></svg><span>Describir</span></button>
+        <button class="tab" id="tab-map" data-href="mapa.html" role="tab" aria-selected="false" type="button"><svg class="icon"><use href="#i-map"/></svg><span>Mapa</span></button>
+        <button class="tab" id="tab-filters" role="tab" aria-selected="false" type="button" aria-haspopup="dialog"><svg class="icon"><use href="#i-filters"/></svg><span>Filtros</span></button>
+      </div>
+
+      <form class="search" id="search" role="search" autocomplete="off">
+          <div class="field" id="field">
+            <svg class="icon field-spark"><use href="#i-sparkle"/></svg>
+            <div class="field-body">
+              <!-- Texto animado (se oculta cuando el usuario escribe) -->
+              <div class="ghost" id="ghost" aria-hidden="true"><span id="ghost-text"></span><span class="caret"></span></div>
+              <textarea id="query" rows="1" aria-label="Describe lo que busca tu inquilino" aria-describedby="hint"></textarea>
+            </div>
+            <button class="mic" type="button" aria-label="Nota de voz"><svg class="icon"><use href="#i-mic"/></svg></button>
+          </div>
+        <p class="hint" id="hint">Puedes escribir o hacer una nota de voz</p>
+        <button class="btn-search" type="submit">Buscar</button>
+      </form>
+    </section>
+
+    <!-- Widget · Mi inventario -->
+    <section class="inv-widget" aria-labelledby="iw-title">
+      <div class="iw-card">
+        <div class="iw-head">
+          <span class="iw-ico"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3l8 4.5v9L12 21l-8-4.5v-9z"/><path d="M4 7.5l8 4.5 8-4.5M12 12v9"/></svg></span>
+          <div class="iw-title"><h2 id="iw-title">Mi inventario</h2><p>Tus inmuebles y su estado en la Red MoradaUno</p></div>
+          <a class="iw-link" href="inventario.html">Ver todo<svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 18l6-6-6-6"/></svg></a>
+        </div>
+        <div class="iw-stats">
+          <a class="iw-stat is-pub" href="inventario.html#publico"><b id="iw-pub">14</b><span>Público</span></a>
+          <a class="iw-stat is-draft" href="inventario.html#por-publicar"><b id="iw-draft">4</b><span>Por publicar</span></a>
+          <a class="iw-stat is-arch" href="inventario.html#archivadas"><b id="iw-arch">5</b><span>Archivadas</span></a>
+        </div>
+        <p class="iw-sync">Sincronizado: hoy 6:00 a.m.</p>
+      </div>
+    </section>
+
+    <!-- Aquí irán las siguientes secciones del home -->
+  </main>
+
+
+
+<!-- Drawer de Filtros (mobile) -->
+<div class="drawer-overlay" id="drawer-overlay" hidden></div>
+<section class="drawer" id="drawer" role="dialog" aria-modal="true" aria-labelledby="drawer-title" aria-hidden="true">
+  <header class="drawer-head">
+    <h2 id="drawer-title">Filtros</h2>
+    <button class="drawer-close" id="drawer-close" type="button" aria-label="Cerrar filtros"><svg class="icon"><use href="#i-close"/></svg></button>
+  </header>
+
+  <form class="drawer-body" id="filters-form" onsubmit="return false">
+    <label class="switch-row"><input class="switch" type="checkbox"><span class="switch-ui" aria-hidden="true"></span><span>Solo inmuebles de la RedM1</span></label>
+    <label class="switch-row"><input class="switch" type="checkbox"><span class="switch-ui" aria-hidden="true"></span><span>Solo inmuebles con comisión compartida</span></label>
+
+    <h3 class="f-label">Tipo de inmueble</h3>
+    <div class="type-grid" role="radiogroup" aria-label="Tipo de inmueble">
+      <button class="type-card is-selected" type="button" role="radio" aria-checked="true"><svg class="icon"><use href="#i-building"/></svg><span>Depa</span></button>
+      <button class="type-card" type="button" role="radio" aria-checked="false"><svg class="icon"><use href="#i-house"/></svg><span>Casa</span></button>
+    </div>
+
+    <h3 class="f-label">Zona o colonia</h3>
+    <div class="combo" id="combo">
+      <input class="f-input" id="zone" type="text" value="Roma Norte" role="combobox" aria-expanded="false" aria-controls="zone-list" aria-autocomplete="list" aria-label="Zona o colonia" autocomplete="off">
+      <svg class="icon combo-chevron" aria-hidden="true"><use href="#i-chevron"/></svg>
+      <ul class="combo-list" id="zone-list" role="listbox" hidden></ul>
+    </div>
+
+    <h3 class="f-label">Rango de renta</h3>
+    <div class="range" id="range">
+      <div class="bars" id="bars" aria-hidden="true"></div>
+      <div class="track"><div class="track-fill" id="track-fill"></div></div>
+      <input class="thumb" id="r-min" type="range" min="10000" max="80000" step="1000" value="10000" aria-label="Renta mínima">
+      <input class="thumb" id="r-max" type="range" min="10000" max="80000" step="1000" value="50000" aria-label="Renta máxima">
+    </div>
+    <div class="range-inputs">
+      <label><span>Mínimo</span><input class="f-input f-money" id="in-min" inputmode="numeric" value="$10,000"></label>
+      <label><span>Máximo</span><input class="f-input f-money" id="in-max" inputmode="numeric" value="$50,000"></label>
+    </div>
+
+    <div class="stepper-row"><h3 class="f-label">Recámaras</h3>
+      <div class="stepper" data-min="0" data-max="10"><button type="button" data-step="-1" aria-label="Menos recámaras"><svg class="icon"><use href="#i-minus"/></svg></button><output>1</output><button type="button" data-step="1" aria-label="Más recámaras"><svg class="icon"><use href="#i-plus"/></svg></button></div></div>
+    <div class="stepper-row"><h3 class="f-label">Baños</h3>
+      <div class="stepper" data-min="0" data-max="10"><button type="button" data-step="-1" aria-label="Menos baños"><svg class="icon"><use href="#i-minus"/></svg></button><output>1</output><button type="button" data-step="1" aria-label="Más baños"><svg class="icon"><use href="#i-plus"/></svg></button></div></div>
+
+    <h3 class="f-label">Metros² construidos</h3>
+    <input class="f-input" type="text" value="100m²" aria-label="Metros cuadrados construidos">
+
+    <h3 class="f-label">Antigüedad del inmueble</h3>
+    <input class="f-input" type="text" value="10 años" aria-label="Antigüedad del inmueble">
+
+    <h3 class="f-label">Amenidades</h3>
+    <div class="chips">
+          <button class="chip" type="button" aria-pressed="false"><svg class="icon"><use href="#i-paw"/></svg>Acepta mascotas</button>
+          <button class="chip" type="button" aria-pressed="false"><svg class="icon"><use href="#i-elevator"/></svg>Elevador</button>
+          <button class="chip" type="button" aria-pressed="false"><svg class="icon"><use href="#i-balcony"/></svg>Balcón</button>
+          <button class="chip" type="button" aria-pressed="false"><svg class="icon"><use href="#i-gym"/></svg>Gimnasio</button>
+          <button class="chip" type="button" aria-pressed="false"><svg class="icon"><use href="#i-sofa"/></svg>Amueblado</button>
+          <button class="chip" type="button" aria-pressed="false"><svg class="icon"><use href="#i-car"/></svg>Estacionamiento</button>
+          <button class="chip" type="button" aria-pressed="false"><svg class="icon"><use href="#i-shield"/></svg>Vigilancia</button>
+          <button class="chip" type="button" aria-pressed="false"><svg class="icon"><use href="#i-access"/></svg>Accesible para personas con discapacidad</button>
+    </div>
+    <button class="link-btn" type="button">Ver todas las amenidades</button>
+  </form>
+
+  <footer class="drawer-foot">
+    <button class="btn-send" id="drawer-send" type="button">Enviar</button>
+  </footer>
+</section>
+</div>
+
+<script src="js/tabbar.js?v=3"></script>
+<script src="js/inventory-widget.js?v=1"></script>
+<script src="js/main.js?v=9"></script>
+<script src="js/colonias.js?v=9"></script>
+<script src="js/filters.js?v=10"></script>
+</body>
+</html>

@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="es-MX">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Red MoradaUno · Guion de pruebas</title>
+<style>
+:root{--p:#772583;--p9:#4a1655;--bg:#f5f5f7;--t:#202028;--m:#49495b;--l:#e2e0e8}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--t);font:15px/1.5 "Figtree",system-ui,-apple-system,"Segoe UI",sans-serif}
+.w{max-width:760px;margin:0 auto;padding:20px 16px 56px}
+h1{margin:0 0 4px;font-size:24px}h2{margin:0;font-size:17px}
+.sub{margin:0 0 20px;color:var(--m)}
+.box{margin:0 0 16px;padding:16px;background:#fff;border:1px solid var(--l);border-radius:14px}
+label{display:block;margin-bottom:6px;font-weight:600}
+input[type=text]{width:100%;height:44px;padding:0 12px;border:1px solid #8d8a92;border-radius:8px;font:inherit}
+.hint{margin:8px 0 0;color:var(--m);font-size:13px}
+.n{display:inline-grid;place-items:center;width:28px;height:28px;margin-right:8px;border-radius:50%;background:var(--p);color:#fff;font-weight:700;font-size:14px}
+.jtbd{margin:10px 0 8px;color:var(--m)}
+.say{margin:8px 0 12px;padding:10px 12px;border-left:4px solid var(--p);background:#f8f1fa;border-radius:0 8px 8px 0}
+.row{display:flex;flex-wrap:wrap;gap:8px}
+.btn{display:inline-flex;align-items:center;justify-content:center;height:40px;padding:0 14px;border:1px solid var(--p);border-radius:8px;background:#fff;color:var(--p);font:600 14px inherit;font-family:inherit;text-decoration:none;cursor:pointer}
+.btn.pri{background:var(--p);color:#fff}
+.start{color:var(--m);font-size:13px}
+code{padding:1px 6px;border-radius:4px;background:#efecf3;font-size:13px;word-break:break-all}
+</style>
+</head>
+<body>
+<div class="w">
+  <h1>Guion de pruebas de usabilidad</h1>
+  <p class="sub">Solo para ti. Crea los enlaces para cada asesora, cópialos y mándaselos. Los enlaces de participante ocultan las herramientas del prototipo, registran la sesión y guían a la asesora: bienvenida, una tarjeta por tarea y un botón “Terminé” para pasar a la siguiente.</p>
+
+  <div class="box">
+    <label for="pid">ID de la participante</label>
+    <input id="pid" type="text" placeholder="Ej. P01" autocomplete="off" value="P01" maxlength="12">
+    <p class="hint">El enlace general recorre las 6 tareas en orden. Los enlaces por tarea sirven si quieres empezar directo en una tarea concreta.</p>
+    <div class="row" style="margin-top:12px">
+      <button class="btn pri" type="button" data-copy="home">Copiar enlace general</button>
+      <a class="btn" id="open-home" target="_blank" rel="noopener" href="#">Probarlo</a>
+      <a class="btn" id="open-fac" target="_blank" rel="noopener" href="#">Abrir como facilitadora</a>
+      <a class="btn" href="resultados.html">Ver resultados</a>
+    </div>
+    <p class="hint">"Abrir como facilitadora" muestra el selector Estados y no registra nada.</p>
+  </div>
+
+  <div id="tasks"></div>
+</div>
+<script src="js/config.js?v=1"></script>
+<script>
+const TASKS = [
+  { n: 1, name: 'Entender la red', jtbd: 'Cuando me presentan la red, quiero entender qué es, quién está y qué gano, para decidir si me uno', say: 'Abre la app por primera vez. Antes de avanzar, cuéntame con tus palabras qué es esto y para qué te serviría', start: 'index.html', note: 'Empieza en el home, sin aviso de bienvenida ni onboarding, para que explore la red libremente.' },
+  { n: 2, name: 'Onboarding sin ayuda', jtbd: 'Cuando entro por primera vez, quiero completar mi registro sola y entender qué pasa en cada paso y después, para empezar a usar la red con confianza', say: 'Regístrate y deja tu cuenta lista para empezar, como lo harías sola. Dime qué crees que está pasando en cada paso', start: 'index.html', note: 'Empieza en el home con el aviso de bienvenida; "Comenzar" lleva al onboarding.' },
+  { n: 3, name: 'Búsqueda', jtbd: 'Cuando un cliente busca algo, quiero encontrar propiedades de la red escribiendo como hablo, dictando una nota de voz o con filtros, para ofrecerle opciones rápido', say: 'Tu cliente busca una renta de cierto presupuesto y zona. Encuentra opciones: puedes escribirlo como se lo dirías a alguien, dictarlo o usar filtros, lo que prefieras', start: 'index.html', note: 'Empieza en el home sin aviso. El micrófono simula una nota de voz; "Buscar" lleva a la lista de inmuebles.' },
+  { n: 4, name: 'Gestionar el inventario', jtbd: 'Cuando tengo propiedades, quiero cargarlas, editarlas y controlar cuáles comparto y con qué comisión, para tener mi inventario al día', say: 'Tienes una propiedad nueva y otra que ya se rentó. Deja tu inventario al día y decide cuáles quieres compartir con la red', start: 'inventario.html', note: 'Empieza en Mi inventario.' },
+  { n: 5, name: 'Revisar una ficha', jtbd: 'Cuando veo una propiedad de la red, quiero ver rápido la información clave y quién la ofrece, para decidir si me sirve y si confío', say: 'Elige una propiedad que te interese. Dime qué necesitas saber para decidir si te sirve y si trabajarías con esa asesora, y dime si lo encuentras', start: 'mapa.html#lista', note: 'Empieza en la lista de inmuebles.' },
+  { n: 6, name: 'Colaborar', jtbd: 'Cuando quiero trabajar con otro asesor, quiero saber cómo contactarlo y qué sigue, para coordinarnos sin enredos', say: 'Quieres avanzar con esa propiedad. Contacta a la otra asesora como lo harías aquí y cuéntame qué esperas que pase', start: 'ficha.html#red-m1', note: 'Empieza en la ficha de una propiedad de la red; WhatsApp abre un chat de ejemplo con botón para volver.' }
+];
+const $ = (id) => document.getElementById(id);
+const base = () => location.href.replace(/[^/]*(\?.*)?(#.*)?$/, '');
+const pidv = () => encodeURIComponent(($('pid').value || 'P01').trim());
+const link = (start, t) => { const [f, h] = start.split('#'); return base() + f + '?p=' + pidv() + (t ? '&t=' + t : '') + (h ? '#' + h : ''); };
+const esc = (s) => s.replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+$('tasks').innerHTML = TASKS.map((t) => `<section class="box"><h2><span class="n">${t.n}</span>${esc(t.name)}</h2>
+  <p class="jtbd">${esc(t.jtbd)}</p><p class="say"><b>Dile:</b> “${esc(t.say)}”</p>
+  <p class="start">${esc(t.note)}</p>
+  <div class="row"><button class="btn pri" type="button" data-copy="${t.n}">Copiar enlace de la tarea</button><a class="btn" data-open="${t.n}" target="_blank" rel="noopener" href="#">Probar</a></div></section>`).join('');
+const refresh = () => {
+  $('open-home').href = base() + 'index.html?p=' + pidv();
+  $('open-fac').href = base() + 'index.html?fac=1';
+  TASKS.forEach((t) => { document.querySelector('[data-open="' + t.n + '"]').href = link(t.start, t.n); });
+};
+$('pid').addEventListener('input', refresh); refresh();
+document.addEventListener('click', (e) => {
+  const b = e.target.closest('[data-copy]'); if (!b) return;
+  const k = b.dataset.copy, url = k === 'home' ? base() + 'index.html?p=' + pidv() : link(TASKS[+k - 1].start, k);
+  const done = () => { const o = b.textContent; b.textContent = 'Copiado'; setTimeout(() => { b.textContent = o; }, 1500); };
+  if (navigator.clipboard) navigator.clipboard.writeText(url).then(done, () => prompt('Copia este enlace', url)); else prompt('Copia este enlace', url);
+});
+</script>
+</body>
+</html>

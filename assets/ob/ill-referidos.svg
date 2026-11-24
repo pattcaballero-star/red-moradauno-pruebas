@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 170 200" fill="none">
+  <ellipse cx="85" cy="196" rx="80" ry="6" fill="#000" opacity=".06"/>
+  <!-- hombre -->
+  <path d="M8 200v-62c0-18 14-30 32-30h12c18 0 32 12 32 30v62z" fill="#1f7a4d"/>
+  <path d="M40 108l12 18 12-18" stroke="#fff" stroke-width="5" stroke-linejoin="round"/>
+  <path d="M14 150c18 10 52 10 76 0" stroke="#fff" stroke-width="5" stroke-linecap="round" opacity=".9"/>
+  <rect x="38" y="86" width="26" height="24" rx="8" fill="#b9805f"/>
+  <ellipse cx="51" cy="66" rx="22" ry="26" fill="#c68d6b"/>
+  <path d="M29 62c0-18 10-26 23-26s22 8 22 24c-8-6-14-9-22-9s-15 3-23 11z" fill="#2b2118"/>
+  <!-- mujer -->
+  <path d="M82 200v-60c0-18 14-30 32-30h12c18 0 32 12 32 30v60z" fill="#1f7a4d"/>
+  <path d="M114 110l12 18 12-18" stroke="#fff" stroke-width="5" stroke-linejoin="round"/>
+  <path d="M88 152c18 10 52 10 76 0" stroke="#fff" stroke-width="5" stroke-linecap="round" opacity=".9"/>
+  <rect x="112" y="88" width="26" height="24" rx="8" fill="#c99273"/>
+  <path d="M100 66c0-24 12-34 26-34s26 10 26 34v30c0 6-4 8-8 8H108c-4 0-8-2-8-8z" fill="#2a1a14"/>
+  <ellipse cx="126" cy="68" rx="21" ry="25" fill="#d3a081"/>
+  <path d="M105 60c4-14 14-20 22-20s17 6 21 20c-8-8-14-10-21-10s-14 2-22 10z" fill="#2a1a14"/>
+</svg>

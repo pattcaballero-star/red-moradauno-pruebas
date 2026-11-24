@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="es-MX">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Red MoradaUno · Resultados de pruebas</title>
+<style>
+:root{--p:#772583;--bg:#f5f5f7;--t:#202028;--m:#49495b;--l:#e2e0e8}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--t);font:14px/1.45 "Figtree",system-ui,-apple-system,"Segoe UI",sans-serif}
+.w{max-width:980px;margin:0 auto;padding:20px 16px 56px}
+h1{margin:0 0 4px;font-size:22px}.sub{margin:0 0 16px;color:var(--m)}
+.bar{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:14px}
+.btn{height:38px;padding:0 14px;border:1px solid var(--p);border-radius:8px;background:#fff;color:var(--p);font:600 14px inherit;font-family:inherit;cursor:pointer;text-decoration:none;display:inline-flex;align-items:center}
+.card{margin-bottom:10px;background:#fff;border:1px solid var(--l);border-radius:12px}
+.card>summary{display:flex;flex-wrap:wrap;gap:6px 18px;align-items:center;padding:12px 14px;cursor:pointer;list-style:none}
+.card>summary b{font-size:16px}.k{color:var(--m)}
+.tl{margin:0;padding:0 14px 12px;list-style:none;max-height:360px;overflow:auto}
+.tl li{display:grid;grid-template-columns:62px 80px 1fr;gap:8px;padding:5px 0;border-top:1px solid #f0eef3;font-size:13px}
+.tl .ty{font-weight:600}.miss{color:#b3261e}.dead{color:#b3261e}.view{color:var(--p)}
+.msg{padding:14px;background:#fff;border:1px dashed #b8b4c0;border-radius:12px;color:var(--m)}
+</style>
+</head>
+<body>
+<div class="w">
+  <h1>Resultados de las pruebas</h1>
+  <p class="sub">Una fila por sesión. Toca una para ver la línea de tiempo de pantallas y toques. "Fallos" son toques fuera de un botón; "sin salida" son secciones que no existen en el prototipo.</p>
+  <div class="bar"><button class="btn" id="reload" type="button">Actualizar</button><button class="btn" id="copy" type="button">Copiar datos (JSON)</button><a class="btn" href="guion.html">Guion y enlaces</a></div>
+  <div id="out" class="msg">Cargando…</div>
+</div>
+<script src="js/config.js?v=1"></script>
+<script>
+(async () => {
+  const out = document.getElementById('out'); let rows = [];
+  const esc = (s) => String(s == null ? '' : s).replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+  const mmss = (ms) => { const s = Math.round(ms / 1000); return Math.floor(s / 60) + ':' + String(s % 60).padStart(2, '0'); };
+  const render = () => {
+    if (!rows.length) { out.className = 'msg'; out.textContent = 'Todavía no hay sesiones registradas. Abre un enlace de participante en otro navegador y vuelve a actualizar.'; return; }
+    out.className = ''; rows.sort((a, b) => b.start - a.start);
+    out.innerHTML = rows.map((r) => {
+      const ev = r.events || [], taps = ev.filter((e) => e.type === 'tap').length, miss = ev.filter((e) => e.type === 'miss').length, dead = ev.filter((e) => e.type === 'dead_end').length;
+      const pages = [...new Set(ev.filter((e) => e.type === 'view').map((e) => e.page.split('#')[0]))].length;
+      return `<details class="card"><summary><b>${esc(r.pid)}${r.name ? ' · ' + esc(r.name) : ''}</b><span class="k">${new Date(r.start).toLocaleString('es-MX')}</span><span class="k">Duración ${mmss((r.last || r.start) - r.start)}</span><span class="k">${taps} toques</span><span class="k">${miss} fallos</span><span class="k">${dead} sin salida</span><span class="k">${pages} pantallas</span>${(r.tasks || []).length ? `<span class="k">Tareas: ${esc(r.tasks.join(', '))}</span>` : ''}</summary>
+      <ul class="tl">${ev.map((e) => `<li><span>${mmss(e.t)}</span><span class="ty ${e.type === 'miss' ? 'miss' : e.type === 'dead_end' ? 'dead' : e.type === 'view' || e.type === 'task_start' || e.type === 'task_done' ? 'view' : ''}">${e.type === 'tap' ? 'Toque' : e.type === 'task_start' ? 'Inicia tarea' : e.type === 'task_done' ? 'Terminó tarea' : e.type === 'session_start' ? 'Inicio' : e.type === 'miss' ? 'Fallo' : e.type === 'dead_end' ? 'Sin salida' : 'Pantalla'}</span><span>${esc(e.page)}${e.label ? ' · ' + esc(e.label) : ''}${e.task ? ' · tarea ' + esc(e.task) : ''}</span></li>`).join('')}</ul></details>`;
+    }).join('');
+  };
+  const load = async () => {
+    out.className = 'msg'; out.textContent = 'Cargando…';
+    if (window.M1_ENDPOINT) {
+      let k = ''; try { k = sessionStorage.getItem('m1_key') || ''; } catch (e) { k = ''; }
+      if (!k) { k = prompt('Clave de resultados (la definiste en el script de Google)') || ''; try { sessionStorage.setItem('m1_key', k); } catch (e) { /* nada */ } }
+      try {
+        const r = await fetch(window.M1_ENDPOINT + '?k=' + encodeURIComponent(k)); const j = await r.json();
+        if (!Array.isArray(j)) { try { sessionStorage.removeItem('m1_key'); } catch (e) { /* nada */ } out.textContent = 'Clave incorrecta. Toca Actualizar para intentar de nuevo.'; return; }
+        rows = j.map((d) => { try { d.events = typeof d.events === 'string' ? JSON.parse(d.events || '[]') : (d.events || []); } catch (e) { d.events = []; } d.tasks = typeof d.tasks === 'string' ? d.tasks.split(',').filter(Boolean) : (d.tasks || []); d.start = +d.start; d.last = +d.last; return d; });
+        render();
+      } catch (e) { out.textContent = 'No se pudo leer la hoja de Google. Revisa la URL en js/config.js.'; }
+      return;
+    }
+    let db = null; try { db = window.claude && claude.use ? await claude.use('db') : null; } catch (e) { db = null; }
+    if (!db) { out.textContent = 'No se pudo abrir la base de datos. Configura js/config.js con tu URL de Google Apps Script.'; return; }
+    try { const snap = await db.collection('sessions').get(); rows = snap.docs.map((d) => d.data()); render(); }
+    catch (e) { out.textContent = 'No tienes permiso para ver los resultados con esta cuenta.'; }
+  };
+  document.getElementById('reload').addEventListener('click', load);
+  document.getElementById('copy').addEventListener('click', () => { const t = JSON.stringify(rows, null, 2); if (navigator.clipboard) navigator.clipboard.writeText(t).then(() => { document.getElementById('copy').textContent = 'Copiado'; }); });
+  load();
+})();
+</script>
+</body>
+</html>
