@@ -2,14 +2,7 @@
    ?p=ID participante · ?t=N tarea · ?fac=1 modo facilitadora (ve "Estados", no registra) · ?reset=1 reinicia estado */
 (() => {
   if (new URLSearchParams(location.search).get('hm') === '1') {
-    /* ---------- Microsoft Clarity (opcional: M1_CLARITY en js/config.js) ---------- */
-  const cid = window.M1_CLARITY;
-  if (cid && !fac) {
-    (function (c, l, a, r, i, t, y) { c[a] = c[a] || function () { (c[a].q = c[a].q || []).push(arguments); }; t = l.createElement(r); t.async = 1; t.src = 'https://www.clarity.ms/tag/' + i; y = l.getElementsByTagName(r)[0]; y.parentNode.insertBefore(t, y); })(window, document, 'clarity', 'script', cid);
-    try { clarity('identify', pid(), sid); clarity('set', 'participante', pid()); if (task()) clarity('set', 'tarea', task()); } catch (e) { /* nada */ }
-  }
-
-  window.M1T = { fac: true, participant: false, log() {}, flush() {}, autoWelcome: () => false };
+    window.M1T = { fac: true, participant: false, log() {}, flush() {}, autoWelcome: () => false };
     const h = document.createElement('style'); h.textContent = '.states{display:none!important}'; (document.head || document.documentElement).appendChild(h); return;
   }
   const ss = { get: (k) => { try { return sessionStorage.getItem(k); } catch (e) { return null; } }, set: (k, v) => { try { sessionStorage.setItem(k, v); } catch (e) { /* nada */ } }, del: (k) => { try { sessionStorage.removeItem(k); } catch (e) { /* nada */ } } };
@@ -166,6 +159,13 @@ body.m1t-has-bar{padding-top:48px}` + '.states{display:none!important}';
   }
   addEventListener('DOMContentLoaded', render);
   if (document.readyState !== 'loading') render();
+
+  /* ---------- Microsoft Clarity (opcional: M1_CLARITY en js/config.js) ---------- */
+  const cid = window.M1_CLARITY;
+  if (cid && !fac) {
+    (function (c, l, a, r, i, t, y) { c[a] = c[a] || function () { (c[a].q = c[a].q || []).push(arguments); }; t = l.createElement(r); t.async = 1; t.src = 'https://www.clarity.ms/tag/' + i; y = l.getElementsByTagName(r)[0]; y.parentNode.insertBefore(t, y); })(window, document, 'clarity', 'script', cid);
+    try { clarity('identify', pid(), sid); clarity('set', 'participante', pid()); if (task()) clarity('set', 'tarea', task()); } catch (e) { /* nada */ }
+  }
 
   window.M1T = { fac, participant: !fac, sid, pid, log, flush,
     autoWelcome: () => !fac && +task() === 2 };
